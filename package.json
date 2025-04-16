@@ -4,19 +4,30 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "build": "electron-builder",
+    "publish": "electron-builder --publish=always"
   },
   "build": {
     "appId": "com.example.my-electron-app",
-    "productName": "My Electron App",
+    "productName": "tb",
     "directories": {
       "output": "dist"
     },
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
-    }
+      "icon": "build/tb.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+  "publish": {
+    "provider": "github",
+    "owner": "xywang-zju",
+    "repo": "tb-native",
+    "releaseType": "release" 
+  }
   },
   "keywords": [],
   "author": "",
