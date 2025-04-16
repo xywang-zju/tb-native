@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>我的Electron应用</title>
+  <!-- 使用外部CSS文件 -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- 直接嵌入CSS样式 -->
+  <style>
+    /* 这是直接嵌入在HTML中的CSS样式 */
+    .inline-style {
+      color: blue;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="external-style">欢迎使用Electron!</h1>
+  <p class="inline-style">这是一个简单的Electron应用示例。</p>
+
+  <!-- 使用外部JS文件 -->
+  <script src="renderer.js"></script>
+  
+  <!-- 直接嵌入JS代码 -->
+  <script>
+    // 这是直接嵌入在HTML中的JavaScript代码
+    console.log('这是直接嵌入在HTML中的JavaScript代码。');
+    
+    // 简单的交互功能
+    document.addEventListener('DOMContentLoaded', () => {
+      const p = document.querySelector('.inline-style');
+      p.addEventListener('click', () => {
+        alert('你点击了段落！');
+      });
+    });
+  </script>
+</body>
+</html>
