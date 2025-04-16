@@ -1,6 +1,7 @@
 // 导入Electron模块
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
+const { autoUpdater } = require('electron-updater');
 
 // 定义创建窗口的函数
 function createWindow() {
@@ -22,7 +23,46 @@ function createWindow() {
 }
 
 // 当Electron完成初始化并准备创建窗口时调用createWindow函数
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  // 检查更新
+  autoUpdater.checkForUpdatesAndNotify();
+});
+
+// 自动更新相关事件
+autoUpdater.on('update-available', (info) => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: '发现新版本',
+    message: '发现新版本，是否立即更新？',
+    buttons: ['是', '否']
+  }).then(({ response }) => {
+    if (response === 0) {
+      autoUpdater.downloadUpdate();
+    }
+  });
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  dialog.showMessageBox({
+    type: 'info',
+    title: '更新下载完成',
+    message: '新版本已下载完成，是否立即安装？',
+    buttons: ['是', '否']
+  }).then(({ response }) => {
+    if (response === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  });
+});
+
+autoUpdater.on('error', (err) => {
+  dialog.showMessageBox({
+    type: 'error',
+    title: '更新错误',
+    message: '更新过程中发生错误：' + err.message
+  });
+});
 
 // 当所有窗口关闭时退出应用
 app.on('window-all-closed', () => {
